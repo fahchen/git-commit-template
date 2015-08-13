@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+
+# This file is the for `git commit`
+# gc attempts to cmd `git commit -v` with template message
+# Default message at ~/.gittemplate
+#
+
+class TemplateFile
+  @@files = []
+
+  attr_accessor :id, :name, :path
+
+  def initialize(name, path)
+    @name, @path = name, path
+    @id = @@files.size
+
+    @@files << self
+  end
+
+  def message
+    "- [#{id}] #{name}"
+  end
+
+  class << self
+    def find_by_id(id)
+      @@files.detect { |file| file.id == id.to_i }
+    end
+  end
+end
+
+
+# Set defalut_template_file
+defalut_template_file_path = %x(git config template.file)
+
+unless defalut_template_file_path.strip.empty?
+  defalut_template_file = File.expand_path(defalut_template_file_path).strip
+
+  if File.exist?(defalut_template_file)
+    name = "#{File.basename(defalut_template_file)}(default)"
+    TemplateFile.new name, defalut_template_file
+  end
+end
+
+
+# Get templates
+relative_templates_dir = '.gittemplates'
+
+if Dir.exist?(relative_templates_dir)
+  Dir.glob("#{relative_templates_dir}/*").each do |file_name|
+    TemplateFile.new File.basename(file_name), File.expand_path(file_name).strip
+  end
+end
+
+
+
+# Get all templates
+files = TemplateFile.class_variable_get(:@@files)
+
+# Ask the template
+puts files.map(&:message).join("\n") # ids
+puts "Enter id of the template:\n(0 is default, 'no' means commit without template)" # promte
+template_file_id = gets.strip
+
+
+# Execute the command
+case template_file_id
+when 'n', 'no'
+  exec "git commit -v"
+else
+  file = TemplateFile.find_by_id(template_file_id)
+  exec "git commit -v --template=#{file.path}"
+end
+
