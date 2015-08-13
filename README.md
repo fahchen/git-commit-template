@@ -12,6 +12,7 @@ See the below links to learn what's a better commit:
 1. `ln -s /path/to/gct /usr/local/bin`
 1. you may need to add permition to file.(`sudo chmod +x /usr/local/bin/gct`)
 1. `cp /path/to/.gittemplate your/gittemplate/path`
+1. modify `your/gittemplate/path` as you want
 1. set `template.file` as `your/gittemplate/path` at `your/gitconfig/file`
 1. `cd your/git/repo`
 1. `mkdir .gittemplates`
