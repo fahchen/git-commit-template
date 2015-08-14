@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
-# This file is the for `git commit`
-# gc attempts to cmd `git commit -v` with template message
+#
+# This file is for `git commit -v --template=:template_file`
+# gct attempts to cmd `git commit -v` with template message
 # Default message at ~/.gittemplate
 #
 
