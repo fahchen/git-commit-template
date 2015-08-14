@@ -69,6 +69,11 @@ when 'n', 'no'
   exec "git commit -v"
 else
   file = TemplateFile.find_by_id(template_file_id)
-  exec "git commit -v --template=#{file.path}"
+  if file
+    exec "git commit -v --template=#{file.path}"
+  else
+    puts "Can't find the template file"
+    exec "git commit -v"
+  end
 end
 
