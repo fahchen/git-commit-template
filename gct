@@ -59,7 +59,7 @@ files = TemplateFile.class_variable_get(:@@files)
 
 # Ask the template
 puts files.map(&:message).join("\n") # ids
-puts "Enter id of the template:\n(0 is default, 'no' means commit without template)" # promte
+print "Enter id of the template:\n(0 is default, 'no' means commit without template): " # prompt
 template_file_id = gets.chomp
 
 
